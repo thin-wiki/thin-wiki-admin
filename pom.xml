@@ -19,17 +19,24 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>wiki.thin</groupId>
 			<artifactId>thin-wiki</artifactId>
 			<version>${thin-wiki.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>wiki.thin</groupId>
+			<artifactId>installer</artifactId>
+			<version>0.0.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>
+		<finalName>thin-wiki-admin</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
