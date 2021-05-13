@@ -119,37 +119,37 @@
 					<workingDirectory>${project.basedir}/ui</workingDirectory>
 				</configuration>
 				<executions>
-<!--					<execution>-->
-<!--						<id>install node and npm</id>-->
-<!--						<goals>-->
-<!--							<goal>install-node-and-npm</goal>-->
-<!--						</goals>-->
-<!--						<configuration>-->
-<!--							<nodeVersion>v8.12.0</nodeVersion>-->
-<!--							<npmVersion>6.4.1</npmVersion>-->
-<!--						</configuration>-->
-<!--					</execution>-->
-<!--					&lt;!&ndash; Install all project dependencies &ndash;&gt;-->
-<!--					<execution>-->
-<!--						<id>npm install</id>-->
-<!--						<goals>-->
-<!--							<goal>npm</goal>-->
-<!--						</goals>-->
-<!--						<phase>generate-resources</phase>-->
-<!--						<configuration>-->
-<!--							<arguments>install</arguments>-->
-<!--						</configuration>-->
-<!--					</execution>-->
-					<!-- Build and minify static files -->
-<!--					<execution>-->
-<!--						<id>npm run build</id>-->
-<!--						<goals>-->
-<!--							<goal>npm</goal>-->
-<!--						</goals>-->
-<!--						<configuration>-->
-<!--							<arguments>run build</arguments>-->
-<!--						</configuration>-->
-<!--					</execution>-->
+					<execution>
+						<id>install node and npm</id>
+						<goals>
+							<goal>install-node-and-npm</goal>
+						</goals>
+						<configuration>
+							<nodeVersion>v8.15.0</nodeVersion>
+							<npmVersion>7.7.6</npmVersion>
+						</configuration>
+					</execution>
+					<!-- Install all project dependencies -->
+					<execution>
+						<id>npm install</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<phase>generate-resources</phase>
+						<configuration>
+							<arguments>install</arguments>
+						</configuration>
+					</execution>
+<!--					 Build and minify static files-->
+					<execution>
+						<id>npm run build</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>run build</arguments>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 
