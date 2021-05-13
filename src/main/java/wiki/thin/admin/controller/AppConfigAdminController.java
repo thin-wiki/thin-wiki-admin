@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import wiki.thin.common.bean.SystemConfig;
 import wiki.thin.constant.ConfigConstant;
 import wiki.thin.constant.enums.ResourceBaseUrlType;
+import wiki.thin.security.annotation.NeedAuth;
 import wiki.thin.service.AppConfigService;
 import wiki.thin.web.vo.ResponseVO;
 
@@ -12,6 +13,7 @@ import wiki.thin.web.vo.ResponseVO;
  */
 @RequestMapping("/api/admin/config")
 @RestController
+@NeedAuth
 public class AppConfigAdminController {
     private final AppConfigService appConfigService;
 

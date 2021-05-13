@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import wiki.thin.common.AppSystem;
 import wiki.thin.common.upgrade.SystemUpgrader;
+import wiki.thin.security.annotation.NeedAuth;
 import wiki.thin.web.vo.ResponseVO;
 
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.io.IOException;
  */
 @RequestMapping("/api/admin/upgrade")
 @RestController
+@NeedAuth
 public class UpgradeAdminController {
 
     private final SystemUpgrader systemUpgrader;

@@ -6,6 +6,7 @@ import wiki.thin.admin.vo.LocalStorageModifyVO;
 import wiki.thin.admin.vo.LocalStorageVO;
 import wiki.thin.entity.LocalStorage;
 import wiki.thin.mapper.LocalStorageMapper;
+import wiki.thin.security.annotation.NeedAuth;
 import wiki.thin.web.vo.ResponseVO;
 
 import javax.validation.Valid;
@@ -18,6 +19,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api/admin/storage/local")
+@NeedAuth
 public class LocalStorageAdminController {
     private final LocalStorageMapper localStorageMapper;
 

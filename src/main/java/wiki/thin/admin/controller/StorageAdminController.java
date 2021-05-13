@@ -12,6 +12,7 @@ import wiki.thin.mapper.GiteeStorageMapper;
 import wiki.thin.mapper.GithubStorageMapper;
 import wiki.thin.mapper.LocalStorageMapper;
 import wiki.thin.mapper.StorageMapper;
+import wiki.thin.security.annotation.NeedAuth;
 import wiki.thin.storage.StorageFileManager;
 import wiki.thin.storage.StorageType;
 import wiki.thin.web.vo.ResponseVO;
@@ -26,6 +27,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api/admin/storage")
+@NeedAuth
 public class StorageAdminController {
     private final StorageMapper storageMapper;
     private final LocalStorageMapper localStorageMapper;

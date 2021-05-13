@@ -6,6 +6,7 @@ import wiki.thin.admin.vo.GiteeStorageModifyVO;
 import wiki.thin.admin.vo.GiteeStorageVO;
 import wiki.thin.entity.GiteeStorage;
 import wiki.thin.mapper.GiteeStorageMapper;
+import wiki.thin.security.annotation.NeedAuth;
 import wiki.thin.web.vo.ResponseVO;
 
 import javax.validation.Valid;
@@ -18,6 +19,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api/admin/storage/gitee")
+@NeedAuth
 public class GiteeStorageAdminController {
     private final GiteeStorageMapper giteeStorageMapper;
 

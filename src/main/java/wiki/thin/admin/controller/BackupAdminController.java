@@ -2,6 +2,7 @@ package wiki.thin.admin.controller;
 
 import org.springframework.web.bind.annotation.*;
 import wiki.thin.backup.BackupService;
+import wiki.thin.security.annotation.NeedAuth;
 import wiki.thin.web.vo.ResponseVO;
 
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.io.IOException;
  */
 @RequestMapping("/api/admin/backup")
 @RestController
+@NeedAuth
 public class BackupAdminController {
     private final BackupService backupService;
 

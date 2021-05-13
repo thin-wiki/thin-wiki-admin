@@ -6,6 +6,7 @@ import wiki.thin.admin.vo.GithubStorageModifyVO;
 import wiki.thin.admin.vo.GithubStorageVO;
 import wiki.thin.entity.GithubStorage;
 import wiki.thin.mapper.GithubStorageMapper;
+import wiki.thin.security.annotation.NeedAuth;
 import wiki.thin.web.vo.ResponseVO;
 
 import javax.validation.Valid;
@@ -18,6 +19,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api/admin/storage/github")
+@NeedAuth
 public class GithubStorageAdminController {
     private final GithubStorageMapper githubStorageMapper;
 
