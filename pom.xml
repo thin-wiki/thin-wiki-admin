@@ -13,10 +13,55 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>thin-wiki-admin</name>
 	<description>Thin Wiki Admin</description>
+	<url>https://github.com/thin-wiki/thin-wiki-admin</url>
+
 	<properties>
 		<java.version>11</java.version>
 		<thin-wiki.version>0.0.4</thin-wiki.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+
+	<scm>
+		<developerConnection>scm:git:git@github.com:thin-wiki/thin-wiki-admin</developerConnection>
+		<url>https://github.com/thin-wiki/thin-wiki-admin</url>
+		<connection>https://github.com/thin-wiki/thin-wiki-admin.git</connection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<developers>
+		<developer>
+			<id>beldon</id>
+			<name>beldon</name>
+			<email>beldon@vip.qq.com</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>+8</timezone>
+		</developer>
+	</developers>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+
+	<repositories>
+		<repository>
+			<id>ossrh</id>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+			<snapshots>
+				<updatePolicy>always</updatePolicy>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -26,12 +71,7 @@
 		<dependency>
 			<groupId>wiki.thin</groupId>
 			<artifactId>thin-wiki</artifactId>
-			<version>${thin-wiki.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>wiki.thin</groupId>
-			<artifactId>installer</artifactId>
-			<version>0.0.2</version>
+			<version>0.0.5-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 

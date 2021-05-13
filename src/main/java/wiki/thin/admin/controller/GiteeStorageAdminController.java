@@ -28,7 +28,7 @@ public class GiteeStorageAdminController {
     @PostMapping
     public ResponseVO saveStorage(@Valid @RequestBody GiteeStorageModifyVO giteeStorageModifyVO) {
 
-        GiteeStorage giteeStorage = new GiteeStorage();
+        var giteeStorage = new GiteeStorage();
         giteeStorage.setName(giteeStorageModifyVO.getName());
         giteeStorage.setDescription(giteeStorageModifyVO.getDescription());
         giteeStorage.setToken(giteeStorageModifyVO.getToken());
@@ -48,7 +48,7 @@ public class GiteeStorageAdminController {
         if (giteeStorageOptional.isEmpty()) {
             return ResponseVO.error("找不到指定记录");
         }
-        final GiteeStorage giteeStorage = giteeStorageOptional.get();
+        final var giteeStorage = giteeStorageOptional.get();
         giteeStorage.setName(giteeStorageModifyVO.getName());
         giteeStorage.setDescription(giteeStorageModifyVO.getDescription());
         giteeStorage.setToken(giteeStorageModifyVO.getToken());
@@ -75,7 +75,7 @@ public class GiteeStorageAdminController {
 
         final List<GiteeStorage> storages = giteeStorageMapper.findAll();
         for (GiteeStorage storage : storages) {
-            GiteeStorageVO giteeStorageVO = new GiteeStorageVO();
+            var giteeStorageVO = new GiteeStorageVO();
             BeanUtils.copyProperties(storage, giteeStorageVO);
             giteeStorageVOs.add(giteeStorageVO);
         }

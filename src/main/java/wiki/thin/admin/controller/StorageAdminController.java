@@ -34,8 +34,8 @@ public class StorageAdminController {
     private final StorageFileManager storageFileManager;
 
     public StorageAdminController(StorageMapper storageMapper, LocalStorageMapper localStorageMapper,
-                                GiteeStorageMapper giteeStorageMapper, GithubStorageMapper githubStorageMapper,
-                                StorageFileManager storageFileManager) {
+                                  GiteeStorageMapper giteeStorageMapper, GithubStorageMapper githubStorageMapper,
+                                  StorageFileManager storageFileManager) {
         this.storageMapper = storageMapper;
         this.localStorageMapper = localStorageMapper;
         this.giteeStorageMapper = giteeStorageMapper;
@@ -45,7 +45,7 @@ public class StorageAdminController {
 
     @PostMapping
     public ResponseVO<Long> saveStorage(@Valid @RequestBody StorageModifyVO storageModifyVO) {
-        Storage storage = new Storage();
+        var storage = new Storage();
         storage.setName(storageModifyVO.getName());
         storage.setDescription(storageModifyVO.getDescription());
         storage.setWorkType(storageModifyVO.getWorkType());
@@ -61,7 +61,7 @@ public class StorageAdminController {
         if (storageOptional.isEmpty()) {
             return ResponseVO.error("找不到指定记录");
         }
-        Storage storage = storageOptional.get();
+        var storage = storageOptional.get();
         storage.setName(storageModifyVO.getName());
         storage.setDescription(storageModifyVO.getDescription());
         storage.setWorkType(storageModifyVO.getWorkType());
@@ -77,7 +77,7 @@ public class StorageAdminController {
         if (storageOptional.isEmpty()) {
             return ResponseVO.error("找不到指定记录");
         }
-        Storage storage = storageOptional.get();
+        var storage = storageOptional.get();
         storage.setRefStorageType(bindVO.getRefStorageType());
         storage.setRefStorageId(bindVO.getRefStorageId());
         storageMapper.updateByIdSelective(storage);
@@ -94,13 +94,13 @@ public class StorageAdminController {
     }
 
     @GetMapping
-    private ResponseVO<List<StorageVO>> list() {
+    public ResponseVO<List<StorageVO>> list() {
         final List<Storage> storages = storageMapper.findAll();
 
         List<StorageVO> storageVos = new ArrayList<>();
 
         for (Storage storage : storages) {
-            StorageVO storageVo = new StorageVO();
+            var storageVo = new StorageVO();
             storageVo.setId(storage.getId());
             storageVo.setName(storage.getName());
             storageVo.setDescription(storage.getDescription());
@@ -126,7 +126,7 @@ public class StorageAdminController {
         if (storageOptional.isEmpty()) {
             return ResponseVO.error("找不到指定记录");
         }
-        Storage storage = storageOptional.get();
+        var storage = storageOptional.get();
         storageFileManager.copy(storage, bindVO.getRefStorageType(), bindVO.getRefStorageId());
 
         return ResponseVO.success();

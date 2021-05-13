@@ -18,6 +18,11 @@ public class BackupAdminController {
         this.backupService = backupService;
     }
 
+    @GetMapping
+    public ResponseVO list() throws IOException {
+        return ResponseVO.successWithData(backupService.list());
+    }
+
     @PostMapping
     public ResponseVO backup() throws IOException {
         backupService.backup();

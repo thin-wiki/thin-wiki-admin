@@ -28,7 +28,7 @@ public class GithubStorageAdminController {
     @PostMapping
     public ResponseVO saveStorage(@Valid @RequestBody GithubStorageModifyVO giteeStorageModifyVO) {
 
-        GithubStorage githubStorage = new GithubStorage();
+        var githubStorage = new GithubStorage();
         githubStorage.setName(giteeStorageModifyVO.getName());
         githubStorage.setDescription(giteeStorageModifyVO.getDescription());
         githubStorage.setToken(giteeStorageModifyVO.getToken());

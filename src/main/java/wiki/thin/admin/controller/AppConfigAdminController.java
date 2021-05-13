@@ -1,11 +1,9 @@
 package wiki.thin.admin.controller;
 
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import wiki.thin.common.bean.SystemConfig;
 import wiki.thin.constant.ConfigConstant;
+import wiki.thin.constant.enums.ResourceBaseUrlType;
 import wiki.thin.service.AppConfigService;
 import wiki.thin.web.vo.ResponseVO;
 
@@ -19,6 +17,16 @@ public class AppConfigAdminController {
 
     public AppConfigAdminController(AppConfigService appConfigService) {
         this.appConfigService = appConfigService;
+    }
+
+    @GetMapping("/system")
+    public ResponseVO getSysConfig() {
+        SystemConfig systemConfig = new SystemConfig();
+        systemConfig.setWebSiteName(appConfigService.getSystemConfigValue(ConfigConstant.SYS_WEBSITE_NAME, () -> null));
+        systemConfig.setWebSiteKeywords(appConfigService.getSystemConfigValue(ConfigConstant.SYS_WEBSITE_KEYWORDS, () -> null));
+        systemConfig.setWebSiteDescription(appConfigService.getSystemConfigValue(ConfigConstant.SYS_WEBSITE_DESCRIPTION, () -> null));
+        systemConfig.setResourceBaseUrlType(appConfigService.getSystemConfigValue(ConfigConstant.SYS_RESOURCE_BASE_URL_TYPE_KEY, ResourceBaseUrlType.LOCAL::getType));
+        return ResponseVO.successWithData(systemConfig);
     }
 
     @PutMapping("/system")
