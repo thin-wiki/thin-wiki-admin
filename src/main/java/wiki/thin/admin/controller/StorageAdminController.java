@@ -15,12 +15,15 @@ import wiki.thin.mapper.StorageMapper;
 import wiki.thin.security.annotation.NeedAuth;
 import wiki.thin.storage.StorageFileManager;
 import wiki.thin.storage.StorageType;
+import wiki.thin.storage.StorageWorkType;
 import wiki.thin.web.vo.ResponseVO;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author Beldon
@@ -98,6 +101,7 @@ public class StorageAdminController {
     @GetMapping
     public ResponseVO<List<StorageVO>> list() {
         final List<Storage> storages = storageMapper.findAll();
+        final Map<Long, Storage> storageMap = storages.stream().collect(Collectors.toMap(Storage::getId, s -> s));
 
         List<StorageVO> storageVos = new ArrayList<>();
 
@@ -111,10 +115,12 @@ public class StorageAdminController {
             storageVo.setRefStorageId(storage.getRefStorageId());
             storageVo.setRefStorageName(getRefStorageName(storage.getRefStorageType(), storage.getRefStorageId()));
             storageVo.setMainStorageId(storage.getMainStorageId());
+            if (StorageWorkType.BACKUP.equals(storage.getWorkType())
+                    && storage.getMainStorageId() != null && storageMap.containsKey(storage.getMainStorageId())) {
+                storageVo.setMainStorageName(storageMap.get(storage.getMainStorageId()).getName());
+            }
             storageVo.setWritable(storage.getWritable());
-            storageVo.setCreatedBy(storage.getCreatedBy());
             storageVo.setCreatedDate(storage.getCreatedDate());
-            storageVo.setLastModifiedBy(storage.getLastModifiedBy());
             storageVo.setLastModifiedDate(storage.getLastModifiedDate());
             storageVos.add(storageVo);
         }

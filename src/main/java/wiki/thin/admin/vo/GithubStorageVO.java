@@ -25,13 +25,13 @@ public class GithubStorageVO {
 
     private String basePath;
 
-    private Long fileCount;
+//    private Long fileCount;
 
-    private String createdBy;
+//    private String createdBy;
 
     private Date createdDate;
 
-    private String lastModifiedBy;
+//    private String lastModifiedBy;
 
     private Date lastModifiedDate;
 }

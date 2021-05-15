@@ -31,11 +31,11 @@ public class StorageVO {
 
     private Boolean writable;
 
-    private Long createdBy;
+//    private Long createdBy;
 
     private Date createdDate;
 
-    private Long lastModifiedBy;
+//    private Long lastModifiedBy;
 
     private Date lastModifiedDate;
 }

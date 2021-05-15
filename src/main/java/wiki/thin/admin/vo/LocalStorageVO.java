@@ -17,11 +17,11 @@ public class LocalStorageVO {
 
     private String basePath;
 
-    private String createdBy;
+//    private String createdBy;
 
     private Date createdDate;
 
-    private String lastModifiedBy;
+//    private String lastModifiedBy;
 
     private Date lastModifiedDate;
 }
