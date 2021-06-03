@@ -27,7 +27,12 @@ export function createPermissionGuard(router: Router) {
       return;
     }
 
-    const token = userStore.getToken;
+    let token = userStore.getToken;
+
+    if(!token){
+      token = "token";
+      userStore.setToken(token);
+    }
 
     // token does not exist
     if (!token) {

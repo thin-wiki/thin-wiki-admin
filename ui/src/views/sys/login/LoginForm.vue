@@ -130,8 +130,8 @@
       const rememberMe = ref(false);
 
       const formData = reactive({
-        account: 'vben2',
-        password: '123456',
+        account: 'admin',
+        password: 'admin',
       });
 
       const { validForm } = useFormValid(formRef);
@@ -148,7 +148,7 @@
           const userInfo = await userStore.login(
             toRaw({
               password: data.password,
-              username: data.account,
+              account: data.account,
               mode: 'none', //不要默认的错误提示
             })
           );

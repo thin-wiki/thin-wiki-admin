@@ -15,7 +15,7 @@ enum Api {
 export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') {
   return defHttp.post<LoginResultModel>(
     {
-      url: Api.Login,
+      url: Api.Login+"?account="+params.account+"&password="+params.password,
       params,
     },
     {
