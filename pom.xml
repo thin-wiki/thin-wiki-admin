@@ -120,34 +120,33 @@
 				</configuration>
 				<executions>
 					<execution>
-						<id>install node and npm</id>
+						<id>install node and yarn</id>
 						<goals>
-							<goal>install-node-and-npm</goal>
+							<goal>install-node-and-yarn</goal>
 						</goals>
 						<configuration>
-							<nodeVersion>v8.15.0</nodeVersion>
-							<npmVersion>7.7.6</npmVersion>
+							<nodeVersion>v16.2.0</nodeVersion>
+							<yarnVersion>v1.22.10</yarnVersion>
 						</configuration>
 					</execution>
-					<!-- Install all project dependencies -->
+
 					<execution>
-						<id>npm install</id>
+						<id>yarn install</id>
 						<goals>
-							<goal>npm</goal>
+							<goal>yarn</goal>
 						</goals>
-						<phase>generate-resources</phase>
 						<configuration>
 							<arguments>install</arguments>
 						</configuration>
 					</execution>
-<!--					 Build and minify static files-->
+
 					<execution>
-						<id>npm run build</id>
+						<id>yarn build</id>
 						<goals>
-							<goal>npm</goal>
+							<goal>yarn</goal>
 						</goals>
 						<configuration>
-							<arguments>run build</arguments>
+							<arguments>build</arguments>
 						</configuration>
 					</execution>
 				</executions>
@@ -174,10 +173,9 @@
 									<directory>${project.basedir}/ui/dist</directory>
 									<includes>
 										<!-- 具体根据实际前端代码、及目录结构进行配置-->
-										<include>css/</include>
-										<include>fonts/</include>
-										<include>img/</include>
-										<include>js/</include>
+										<include>assets/</include>
+										<include>resource/</include>
+										<include>_app.config.js</include>
 										<include>favicon.ico</include>
 										<include>index.html</include>
 									</includes>
