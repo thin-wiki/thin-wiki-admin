@@ -12,7 +12,6 @@ import { schemas } from './data';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { PageWrapper } from '/@/components/Page';
 import { getSysConfig, updateSysConfig } from '/@/api/sys/config';
-import {SysConfigModel} from "/@/api/sys/model/configModel";
 export default defineComponent({
   components: { BasicForm, PageWrapper },
 
