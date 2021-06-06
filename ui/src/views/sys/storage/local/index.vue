@@ -18,29 +18,34 @@
         <TableAction
           :actions="[
             {
+              label: '编辑',
+              icon: 'ic:outline-delete-outline',
+              onClick: editStorage.bind(null, record),
+            },
+            {
               label: '删除',
               icon: 'ic:outline-delete-outline',
-              onClick: deleteBackup.bind(null, record),
+              onClick: deleteStorage.bind(null, record),
             },
           ]"
         />
       </template>
     </BasicTable>
   </div>
-  <EditModel @register="editModelRegister" />
+  <EditModel @register="editModelRegister" @submitData="loadData"/>
 </template>
 <script lang="ts">
 import {defineComponent, onMounted, ref} from 'vue';
-import { useModal } from '/@/components/Modal';
+import {useModal} from '/@/components/Modal';
 import {BasicColumn, BasicTable, TableAction} from '/@/components/Table';
-import {getLocalStorage} from '/@/api/sys/storage';
+import {getLocalStorage, deleteLocalStorage} from '/@/api/sys/storage';
 import EditModel from './EditModel.vue';
 
 export default defineComponent({
   components: {BasicTable, TableAction, EditModel},
   setup() {
     const loading = ref(false);
-    const [editModelRegister, { openModal: editOpenModel }] = useModal();
+    const [editModelRegister, {openModal: editOpenModel}] = useModal();
 
     const basicColumns = ref<BasicColumn[]>([
       {
@@ -54,7 +59,7 @@ export default defineComponent({
       {
         title: '创建时间',
         dataIndex: 'createdDate',
-        width: 200,
+        width: 190,
         sorter: true,
       },
     ]);
@@ -62,7 +67,7 @@ export default defineComponent({
     const tableData = ref<any>();
 
     const actionColumn = ref<any>({
-      width: 80,
+      width: 140,
       title: '操作',
       dataIndex: 'action',
       slots: {customRender: 'action'},
@@ -81,15 +86,19 @@ export default defineComponent({
     }
 
     function openEditModel() {
-      editOpenModel(true, {
-        data: 'content',
-        info: 'Info',
-      });
+      editOpenModel(true, {});
     }
 
-    function deleteBackup(record: Recordable) {
+    function deleteStorage(record: Recordable) {
       loading.value = true;
+      deleteLocalStorage(record.id).then(res => {
+        loading.value = false;
+        loadData();
+      })
+    }
 
+    function editStorage(record: Recordable) {
+      editOpenModel(true, record);
     }
 
     return {
@@ -97,10 +106,12 @@ export default defineComponent({
       data: tableData,
       loading,
       openEditModel,
-      deleteBackup,
+      editStorage,
+      deleteStorage,
       actionColumn,
       editModelRegister,
       editOpenModel,
+      loadData,
     };
   },
 });

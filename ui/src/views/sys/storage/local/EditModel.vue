@@ -1,40 +1,62 @@
 <template>
-  <BasicModal v-bind="$attrs" @register="register" title="Modal Title">
-    <BasicForm @register="registerForm" :model="model" />
+  <BasicModal v-bind="$attrs" @register="register" :title="modelTitle" @ok="handleOk">
+    <BasicForm @register="registerForm" :model="model"/>
   </BasicModal>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { BasicModal, useModalInner } from '/@/components/Modal';
-import { BasicForm, FormSchema, useForm } from '/@/components/Form/index';
+import {defineComponent, ref} from 'vue';
+import {BasicModal, useModalInner} from '/@/components/Modal';
+import {BasicForm, FormSchema, useForm} from '/@/components/Form/index';
+import {useMessage} from "/@/hooks/web/useMessage";
+
+const {createMessage} = useMessage();
+import {updateLocalStorage, addLocalStorage} from '/@/api/sys/storage';
+
 const schemas: FormSchema[] = [
   {
-    field: 'field1',
+    field: 'id',
     component: 'Input',
-    label: '字段1',
-    colProps: {
-      span: 12,
-    },
-    defaultValue: '111',
+    label: 'id',
+    show: false,
   },
   {
-    field: 'field2',
+    field: 'name',
     component: 'Input',
-    label: '字段2',
-    colProps: {
-      span: 12,
+    label: '名称',
+    componentProps: {
+      placeholder: '存储名称',
+    },
+    required: true,
+  },
+  {
+    field: 'basePath',
+    component: 'Input',
+    label: 'basePath',
+    componentProps: {
+      placeholder: 'basePath',
+    },
+    required: true,
+  },
+  {
+    field: 'description',
+    component: 'InputTextArea',
+    label: '描述',
+    componentProps: {
+      placeholder: '描述',
     },
   },
+
 ];
 export default defineComponent({
-  components: { BasicModal, BasicForm },
-  setup() {
+  components: {BasicModal, BasicForm},
+  setup(props, { emit }) {
     const modelRef = ref({});
+    const modelTitle = ref<string>('');
     const [
       registerForm,
       {
-        // setFieldsValue,
-        // setProps
+        validate,
+        resetFields,
       },
     ] = useForm({
       labelWidth: 120,
@@ -44,19 +66,59 @@ export default defineComponent({
         span: 24,
       },
     });
-    const [register] = useModalInner((data) => {
+    const [register,{setModalProps,closeModal}] = useModalInner((data) => {
       // 方式1
       // setFieldsValue({
       //   field2: data.data,
       //   field1: data.info,
       // });
       // 方式2
-      modelRef.value = { field2: data.data, field1: data.info };
+      // modelRef.value = {field2: data.data, field1: data.info};
       // setProps({
       //   model:{ field2: data.data, field1: data.info }
       // })
+      if (data.id) {
+        modelTitle.value = '编辑存储'
+        modelRef.value = data;
+      } else {
+        modelTitle.value = "新增存储";
+        resetFields();
+      }
     });
-    return { register, schemas, registerForm, model: modelRef };
+
+    function handleOk() {
+      try {
+        validate().then(data=>{
+          console.log("success", data);
+          setModalProps({
+            loading: true,
+            loadingTip: "提交中..."
+          })
+          if (data.id) {
+            updateLocalStorage(data).then(res => {
+              setModalProps({
+                loading: false,
+              })
+              closeModal()
+              emit('submitData');
+              createMessage.success('更新成功！');
+            });
+          } else {
+            addLocalStorage(data).then(res => {
+              setModalProps({
+                loading: false
+              })
+              closeModal()
+              emit('submitData');
+              createMessage.success('添加成功！');
+            });
+          }
+        })
+      } catch (error) {
+      }
+    }
+
+    return {register, schemas, registerForm, model: modelRef, modelTitle, handleOk};
   },
 });
 </script>
