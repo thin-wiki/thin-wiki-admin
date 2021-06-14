@@ -1,8 +1,8 @@
 <template>
   <div class="p-4">
     <BasicTable
-      title="数据备份"
-      titleHelpMessage="数据备份"
+      title="Github存储"
+      titleHelpMessage="Github存储"
       :columns="columns"
       :dataSource="data"
       :canResize="false"
@@ -12,48 +12,54 @@
       :action-column="actionColumn"
     >
       <template #toolbar>
-        <!--        <a-button type="primary" @click="toggleCanResize">-->
-        <!--          {{ !canResize ? '自适应高度' : '取消自适应' }}-->
-        <!--        </a-button>-->
-        <a-button type="primary" @click="backupData">新增备份</a-button>
+        <a-button type="primary" @click="openEditModel">新增存储</a-button>
       </template>
       <template #action="{ record }">
         <TableAction
           :actions="[
             {
+              label: '编辑',
+              icon: 'ic:outline-delete-outline',
+              onClick: editStorage.bind(null, record),
+            },
+            {
               label: '删除',
               icon: 'ic:outline-delete-outline',
-              onClick: deleteBackup.bind(null, record),
+              onClick: deleteStorage.bind(null, record),
             },
           ]"
         />
       </template>
     </BasicTable>
   </div>
+  <EditModel @register="editModelRegister" @submitData="loadData"/>
 </template>
 <script lang="ts">
 import {defineComponent, onMounted, ref} from 'vue';
+import {useModal} from '/@/components/Modal';
 import {BasicColumn, BasicTable, TableAction} from '/@/components/Table';
-import {getBackupFiles, doBackup, deleteBackupFile} from '/@/api/sys/backup';
+import {getGithubStorage, deleteGithubStorage} from '/@/api/sys/storage';
+import EditModel from './EditModel.vue';
 
 export default defineComponent({
-  components: {BasicTable, TableAction},
+  components: {BasicTable, TableAction, EditModel},
   setup() {
     const loading = ref(false);
+    const [editModelRegister, {openModal: editOpenModel}] = useModal();
 
     const basicColumns = ref<BasicColumn[]>([
       {
-        title: '文件名',
-        dataIndex: 'fileName',
+        title: '名称',
+        dataIndex: 'name',
       },
       {
-        title: '大小',
-        dataIndex: 'length',
+        title: 'basePath',
+        dataIndex: 'basePath',
       },
       {
-        title: '备份日期',
-        dataIndex: 'lastModified',
-        width: 200,
+        title: '创建时间',
+        dataIndex: 'createdDate',
+        width: 190,
         sorter: true,
       },
     ]);
@@ -61,7 +67,7 @@ export default defineComponent({
     const tableData = ref<any>();
 
     const actionColumn = ref<any>({
-      width: 80,
+      width: 140,
       title: '操作',
       dataIndex: 'action',
       slots: {customRender: 'action'},
@@ -73,33 +79,39 @@ export default defineComponent({
 
     function loadData() {
       loading.value = true;
-      getBackupFiles().then(res=>{
+      getGithubStorage().then(res => {
         tableData.value = res;
         loading.value = false;
       })
     }
 
-    function backupData() {
+    function openEditModel() {
+      editOpenModel(true, {});
+    }
+
+    function deleteStorage(record: Recordable) {
       loading.value = true;
-      doBackup().then(res=>{
-        loadData()
+      deleteGithubStorage(record.id).then(res => {
+        loading.value = false;
+        loadData();
       })
     }
 
-    function deleteBackup(record: Recordable) {
-      loading.value = true;
-      deleteBackupFile(record.fileName).then(res=>{
-        loadData()
-      })
+    function editStorage(record: Recordable) {
+      editOpenModel(true, record);
     }
 
     return {
       columns: basicColumns,
       data: tableData,
       loading,
-      backupData,
-      deleteBackup,
+      openEditModel,
+      editStorage,
+      deleteStorage,
       actionColumn,
+      editModelRegister,
+      editOpenModel,
+      loadData,
     };
   },
 });

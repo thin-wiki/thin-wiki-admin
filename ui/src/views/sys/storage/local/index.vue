@@ -1,8 +1,8 @@
 <template>
   <div class="p-4">
     <BasicTable
-      title="数据备份"
-      titleHelpMessage="数据备份"
+      title="本地存储"
+      titleHelpMessage="本地存储"
       :columns="columns"
       :dataSource="data"
       :canResize="false"
