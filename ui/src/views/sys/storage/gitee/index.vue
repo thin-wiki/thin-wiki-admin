@@ -31,8 +31,8 @@
         />
       </template>
     </BasicTable>
+    <EditModel @register="editModelRegister" @submitData="loadData"/>
   </div>
-  <EditModel @register="editModelRegister" @submitData="loadData"/>
 </template>
 <script lang="ts">
 import {defineComponent, onMounted, ref} from 'vue';
