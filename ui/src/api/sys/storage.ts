@@ -1,13 +1,68 @@
 import {ErrorMessageMode} from "/@/utils/http/axios/types";
 import {defHttp} from "/@/utils/http/axios";
-import {GithubStorageModel, LocalStorageModel} from "/@/api/sys/model/storageModel";
+import {
+  StorageModel,
+  GiteeStorageModel,
+  GithubStorageModel,
+  LocalStorageModel
+} from "/@/api/sys/model/storageModel";
 
 enum Api {
+  storage = '/api/admin/storage',
   local = '/api/admin/storage/local',
   github = '/api/admin/storage/github',
   gitee = '/api/admin/storage/gitee',
 }
 
+export function getStorage(mode: ErrorMessageMode = 'modal') {
+  return defHttp.get<StorageModel>(
+    {
+      url: Api.storage
+    },
+    {
+      errorMessageMode: mode,
+    }
+  );
+}
+
+
+export function addStorage(storage: StorageModel, mode: ErrorMessageMode = 'modal') {
+  return defHttp.post<StorageModel>(
+    {
+      url: Api.storage,
+      params: storage
+    },
+    {
+      errorMessageMode: mode,
+    }
+  );
+}
+
+
+export function updateStorage(storage: StorageModel, mode: ErrorMessageMode = 'modal') {
+  return defHttp.put<StorageModel>(
+    {
+      url: Api.storage + "/" + storage.id,
+      params: storage
+    },
+    {
+      errorMessageMode: mode,
+    }
+  );
+}
+
+export function deleteStorage(id: number, mode: ErrorMessageMode = 'modal') {
+  return defHttp.delete<StorageModel>(
+    {
+      url: Api.storage + "/" + id
+    },
+    {
+      errorMessageMode: mode,
+    }
+  );
+}
+
+//local storage
 
 export function getLocalStorage(mode: ErrorMessageMode = 'modal') {
   return defHttp.get<LocalStorageModel>(
@@ -106,9 +161,9 @@ export function deleteGithubStorage(id: number, mode: ErrorMessageMode = 'modal'
 
 //gitee
 export function getGiteeStorage(mode: ErrorMessageMode = 'modal') {
-  return defHttp.get<GithubStorageModel>(
+  return defHttp.get<GiteeStorageModel>(
     {
-      url: Api.github
+      url: Api.gitee
     },
     {
       errorMessageMode: mode,
@@ -116,11 +171,11 @@ export function getGiteeStorage(mode: ErrorMessageMode = 'modal') {
   );
 }
 
-export function addGiteeStorage(githubStorage: GithubStorageModel, mode: ErrorMessageMode = 'modal') {
-  return defHttp.post<GithubStorageModel>(
+export function addGiteeStorage(giteeStorage: GiteeStorageModel, mode: ErrorMessageMode = 'modal') {
+  return defHttp.post<GiteeStorageModel>(
     {
-      url: Api.github,
-      params: githubStorage
+      url: Api.gitee,
+      params: giteeStorage
     },
     {
       errorMessageMode: mode,
@@ -129,11 +184,11 @@ export function addGiteeStorage(githubStorage: GithubStorageModel, mode: ErrorMe
 }
 
 
-export function updateGiteeStorage(githubStorage: GithubStorageModel, mode: ErrorMessageMode = 'modal') {
-  return defHttp.put<GithubStorageModel>(
+export function updateGiteeStorage(giteeStorage: GiteeStorageModel, mode: ErrorMessageMode = 'modal') {
+  return defHttp.put<GiteeStorageModel>(
     {
-      url: Api.github + "/" + githubStorage.id,
-      params: githubStorage
+      url: Api.gitee + "/" + giteeStorage.id,
+      params: giteeStorage
     },
     {
       errorMessageMode: mode,
@@ -142,9 +197,9 @@ export function updateGiteeStorage(githubStorage: GithubStorageModel, mode: Erro
 }
 
 export function deleteGiteeStorage(id: number, mode: ErrorMessageMode = 'modal') {
-  return defHttp.delete<GithubStorageModel>(
+  return defHttp.delete<GiteeStorageModel>(
     {
-      url: Api.github + "/" + id
+      url: Api.gitee + "/" + id
     },
     {
       errorMessageMode: mode,
