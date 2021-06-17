@@ -33,6 +33,22 @@ export function bindStorage(storageId:number,refStorageType:string,refStorageId:
   );
 }
 
+export function copyStorage(storageId:number,refStorageType:string,refStorageId:string,mode: ErrorMessageMode = 'modal') {
+  const params = {
+    refStorageType,
+    refStorageId
+  };
+  return defHttp.put<StorageModel>(
+    {
+      url: Api.storage+"/"+storageId+"/copy",
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    }
+  );
+}
+
 export function getStorage(mode: ErrorMessageMode = 'modal') {
   return defHttp.get<StorageModel>(
     {

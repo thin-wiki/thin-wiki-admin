@@ -1,158 +1,139 @@
 <template>
-  <BasicModal v-bind="$attrs" @register="register" :title="modelTitle" @ok="handleOk">
-    <BasicForm @register="registerForm" :model="model"/>
-  </BasicModal>
+  <div>
+    <BasicModal v-bind="$attrs" @register="register" :title="modelTitle" @ok="handleOk" width="800px">
+      <RadioGroup button-style="solid" v-model:value="selectedStorage">
+        <div class="storages">
+          <span class="label">本地存储：</span>
+          <template v-for="item in localStorages" :key="`${item.value}`">
+            <Radio :value="item" class="storage-item">
+              {{ item.name }}
+            </Radio>
+          </template>
+        </div>
+        <div class="storages">
+          <span class="label">Github存储：</span>
+          <template v-for="item in githubStorages" :key="`${item.value}`">
+            <Radio :value="item" class="storage-item">
+              {{ item.name }}
+            </Radio>
+          </template>
+        </div>
+        <div class="storages">
+          <span class="label">Gitee存储：</span>
+          <template v-for="item in giteeStorages" :key="`${item.value}`">
+            <Radio :value="item" class="storage-item">
+              {{ item.name }}
+            </Radio>
+          </template>
+        </div>
+      </RadioGroup>
+    </BasicModal>
+  </div>
 </template>
 <script lang="ts">
 import {defineComponent, ref} from 'vue';
 import {BasicModal, useModalInner} from '/@/components/Modal';
-import {BasicForm, FormSchema, useForm} from '/@/components/Form/index';
+import {Radio} from 'ant-design-vue';
+import {getLocalStorage, getGithubStorage, getGiteeStorage, copyStorage} from '/@/api/sys/storage';
 import {useMessage} from "/@/hooks/web/useMessage";
-
 const {createMessage} = useMessage();
-import {updateStorage, addStorage,mainStorageOptionsApi} from '/@/api/sys/storage';
 
-const schemas: FormSchema[] = [
-  {
-    field: 'id',
-    component: 'Input',
-    label: 'id',
-    show: false,
-  },
-  {
-    field: 'name',
-    component: 'Input',
-    label: '名称',
-    componentProps: {
-      placeholder: '存储名称',
-    },
-    required: true,
-  },
-  {
-    field: 'workType',
-    component: 'Select',
-    label: '工作模式',
-    defaultValue: 'MAIN',
-    componentProps: {
-      options: [
-        {
-          label: '主存储',
-          value: 'MAIN',
-          key: 'MAIN',
-        },
-        {
-          label: '备存储',
-          value: 'BACKUP',
-          key: 'BACKUP',
-        },
-      ],
-    },
-    required: true,
-  },
-  {
-    field: 'mainStorageId',
-    component: 'ApiSelect',
-    label: '主节点',
-    componentProps: {
-      api: mainStorageOptionsApi,
-      labelField: 'name',
-      valueField: 'id',
-      immediate: false,
-      onChange: (e) => {
-        console.log('selected:', e);
-      },
-      // atfer request callback
-      onOptionsChange: (options) => {
-        console.log('get options', options.length, options);
-      },
-    },
-    required: true,
-    ifShow: ({values}) => {
-      return values.workType === 'BACKUP';
-    },
-  },
-  {
-    field: 'writable',
-    component: 'Switch',
-    label: '是否可写',
-    defaultValue: true,
-    componentProps: {
-      placeholder: '是否可写',
-    },
-    required: true,
-  },
-  {
-    field: 'description',
-    component: 'InputTextArea',
-    label: '描述',
-    componentProps: {
-      placeholder: '描述',
-    },
-  },
-
-];
 export default defineComponent({
-  components: {BasicModal, BasicForm},
+  components: {
+    BasicModal,
+    RadioGroup: Radio.Group,
+    RadioButton: Radio.Button,
+    Radio: Radio,
+  },
   setup(props, {emit}) {
+
     const modelRef = ref({});
-    const modelTitle = ref<string>('');
-    const [
-      registerForm,
-      {
-        validate,
-        resetFields,
-      },
-    ] = useForm({
-      labelWidth: 120,
-      schemas,
-      showActionButtonGroup: false,
-      actionColOptions: {
-        span: 24,
-      },
-    });
-    const [register, {setModalProps, closeModal}] = useModalInner((data) => {
-      if (data.id) {
-        modelTitle.value = '编辑存储'
-        modelRef.value = data;
-      } else {
-        modelTitle.value = "新增存储";
-        resetFields();
-      }
+    const modelTitle = ref<string>('复制存储');
+    const selectedStorage = ref({});
+    const localStorages = ref<any>([]);
+    const githubStorages = ref<any>([]);
+    const giteeStorages = ref<any>([]);
+
+    const [register, {setModalProps,closeModal}] = useModalInner((data) => {
+      modelRef.value = data;
+      loadStorages();
     });
 
-    function handleOk() {
-      try {
-        validate().then(data => {
-          console.log("success", data);
-          setModalProps({
-            loading: true,
-            loadingTip: "提交中..."
-          })
-          if (data.id) {
-            updateStorage(data).then(res => {
-              setModalProps({
-                loading: false,
-              })
-              closeModal()
-              emit('submitData');
-              createMessage.success('更新成功！');
-            });
-          } else {
-            addStorage(data).then(res => {
-              setModalProps({
-                loading: false
-              })
-              closeModal()
-              emit('submitData');
-              createMessage.success('添加成功！');
-            });
-          }
-        })
-      } catch (error) {
-      }
+    function loadStorages() {
+      loadLocalStorages();
+      loadGithubStorages();
+      loadGiteeStorages();
     }
 
-    return {register, schemas, registerForm, model: modelRef, modelTitle, handleOk};
+    function loadLocalStorages() {
+      getLocalStorage().then(res => {
+        localStorages.value = res.map((ele, index) => {
+          ele.type='LOCAL';
+          return ele;
+        });
+      })
+    }
+
+    function loadGithubStorages() {
+      getGithubStorage().then(res => {
+        githubStorages.value = res.map((ele, index) => {
+          ele.type='GITHUB';
+          return ele;
+        });
+      })
+    }
+
+    function loadGiteeStorages() {
+      getGiteeStorage().then(res => {
+        giteeStorages.value = res.map((ele, index) => {
+          ele.type='GITEE';
+          return ele;
+        });
+      })
+    }
+
+    function handleOk() {
+      setModalProps({
+        loading: true,
+        loadingTip: "提交中..."
+      })
+      copyStorage(modelRef.value.id,selectedStorage.value.type,selectedStorage.value.id).then(res => {
+        setModalProps({
+          loading: false,
+        })
+        closeModal()
+        emit('submitData');
+        createMessage.success('更新成功！');
+      });
+    }
+
+    return {
+      register,
+      model: modelRef,
+      modelTitle,
+      selectedStorage,
+      localStorages,
+      githubStorages,
+      giteeStorages,
+      handleOk
+    };
   },
 });
 </script>
+
+<style>
+.storages {
+  height: 40px;
+}
+
+.label {
+  display: inline-block;
+  width: 100px;
+  text-align: right;
+}
+
+.storage-item {
+  display: inline-block;
+  min-width: 120px;
+}
+</style>
