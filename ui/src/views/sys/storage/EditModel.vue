@@ -10,7 +10,7 @@ import {BasicForm, FormSchema, useForm} from '/@/components/Form/index';
 import {useMessage} from "/@/hooks/web/useMessage";
 
 const {createMessage} = useMessage();
-import {updateLocalStorage, addLocalStorage} from '/@/api/sys/storage';
+import {updateStorage, addStorage,mainStorageOptionsApi} from '/@/api/sys/storage';
 
 const schemas: FormSchema[] = [
   {
@@ -32,9 +32,7 @@ const schemas: FormSchema[] = [
     field: 'workType',
     component: 'Select',
     label: '工作模式',
-    componentProps: {
-      placeholder: '工作模式',
-    },
+    defaultValue: 'MAIN',
     componentProps: {
       options: [
         {
@@ -53,31 +51,31 @@ const schemas: FormSchema[] = [
   },
   {
     field: 'mainStorageId',
-    component: 'Select',
+    component: 'ApiSelect',
     label: '主节点',
     componentProps: {
-      placeholder: '主节点',
-    },
-    componentProps: {
-      options: [
-        {
-          label: '主存储',
-          value: 'MAIN',
-          key: 'MAIN',
-        },
-        {
-          label: '备存储',
-          value: 'BACKUP',
-          key: 'BACKUP',
-        },
-      ],
+      api: mainStorageOptionsApi,
+      labelField: 'name',
+      valueField: 'id',
+      immediate: false,
+      onChange: (e) => {
+        console.log('selected:', e);
+      },
+      // atfer request callback
+      onOptionsChange: (options) => {
+        console.log('get options', options.length, options);
+      },
     },
     required: true,
+    ifShow: ({values}) => {
+      return values.workType === 'BACKUP';
+    },
   },
   {
     field: 'writable',
     component: 'Switch',
     label: '是否可写',
+    defaultValue: true,
     componentProps: {
       placeholder: '是否可写',
     },
@@ -95,7 +93,7 @@ const schemas: FormSchema[] = [
 ];
 export default defineComponent({
   components: {BasicModal, BasicForm},
-  setup(props, { emit }) {
+  setup(props, {emit}) {
     const modelRef = ref({});
     const modelTitle = ref<string>('');
     const [
@@ -112,17 +110,7 @@ export default defineComponent({
         span: 24,
       },
     });
-    const [register,{setModalProps,closeModal}] = useModalInner((data) => {
-      // 方式1
-      // setFieldsValue({
-      //   field2: data.data,
-      //   field1: data.info,
-      // });
-      // 方式2
-      // modelRef.value = {field2: data.data, field1: data.info};
-      // setProps({
-      //   model:{ field2: data.data, field1: data.info }
-      // })
+    const [register, {setModalProps, closeModal}] = useModalInner((data) => {
       if (data.id) {
         modelTitle.value = '编辑存储'
         modelRef.value = data;
@@ -134,14 +122,14 @@ export default defineComponent({
 
     function handleOk() {
       try {
-        validate().then(data=>{
+        validate().then(data => {
           console.log("success", data);
           setModalProps({
             loading: true,
             loadingTip: "提交中..."
           })
           if (data.id) {
-            updateLocalStorage(data).then(res => {
+            updateStorage(data).then(res => {
               setModalProps({
                 loading: false,
               })
@@ -150,7 +138,7 @@ export default defineComponent({
               createMessage.success('更新成功！');
             });
           } else {
-            addLocalStorage(data).then(res => {
+            addStorage(data).then(res => {
               setModalProps({
                 loading: false
               })

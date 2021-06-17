@@ -14,6 +14,9 @@ enum Api {
   gitee = '/api/admin/storage/gitee',
 }
 
+export const mainStorageOptionsApi = () =>
+  defHttp.get<StorageModel[]>({url: Api.storage+"?workType=MAIN"});
+
 export function getStorage(mode: ErrorMessageMode = 'modal') {
   return defHttp.get<StorageModel>(
     {

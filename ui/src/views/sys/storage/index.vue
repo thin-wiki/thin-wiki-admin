@@ -25,7 +25,7 @@
             {
               label: '删除',
               icon: 'ic:outline-delete-outline',
-              onClick: deleteStorage.bind(null, record),
+              onClick: deleteStorage2.bind(null, record),
             },
           ]"
         />
@@ -38,7 +38,7 @@
 import {defineComponent, onMounted, ref} from 'vue';
 import {useModal} from '/@/components/Modal';
 import {BasicColumn, BasicTable, TableAction} from '/@/components/Table';
-import {getStorage, deleteLocalStorage} from '/@/api/sys/storage';
+import {getStorage, deleteStorage} from '/@/api/sys/storage';
 import EditModel from './EditModel.vue';
 
 export default defineComponent({
@@ -56,6 +56,10 @@ export default defineComponent({
         title: '工作模式',
         dataIndex: 'workType',
         width: 150,
+      },
+      {
+        title: '主存储名称',
+        dataIndex: 'mainStorageName',
       },
       {
         title: '存储类型',
@@ -98,9 +102,9 @@ export default defineComponent({
       editOpenModel(true, {});
     }
 
-    function deleteStorage(record: Recordable) {
+    function deleteStorage2(record: Recordable) {
       loading.value = true;
-      deleteLocalStorage(record.id).then(res => {
+      deleteStorage(record.id).then(res => {
         loading.value = false;
         loadData();
       })
@@ -116,7 +120,7 @@ export default defineComponent({
       loading,
       openEditModel,
       editStorage,
-      deleteStorage,
+      deleteStorage2,
       actionColumn,
       editModelRegister,
       editOpenModel,

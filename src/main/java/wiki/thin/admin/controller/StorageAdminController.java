@@ -99,13 +99,16 @@ public class StorageAdminController {
     }
 
     @GetMapping
-    public ResponseVO<List<StorageVO>> list() {
+    public ResponseVO<List<StorageVO>> list(@RequestParam(required = false) StorageWorkType workType) {
         final List<Storage> storages = storageMapper.findAll();
         final Map<Long, Storage> storageMap = storages.stream().collect(Collectors.toMap(Storage::getId, s -> s));
 
         List<StorageVO> storageVos = new ArrayList<>();
 
         for (Storage storage : storages) {
+            if (workType != null && !workType.equals(storage.getWorkType())) {
+                continue;
+            }
             var storageVo = new StorageVO();
             storageVo.setId(storage.getId());
             storageVo.setName(storage.getName());
