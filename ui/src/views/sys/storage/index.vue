@@ -18,6 +18,16 @@
         <TableAction
           :actions="[
             {
+              label: '复制',
+              icon: 'ic:outline-delete-outline',
+              onClick: copyStorage.bind(null, record),
+            },
+            {
+              label: '关联存储',
+              icon: 'ic:outline-delete-outline',
+              onClick: bindStorage.bind(null, record),
+            },
+            {
               label: '编辑',
               icon: 'ic:outline-delete-outline',
               onClick: editStorage.bind(null, record),
@@ -32,6 +42,8 @@
       </template>
     </BasicTable>
     <EditModel @register="editModelRegister" @submitData="loadData"/>
+    <BindStorageModel @register="bindStorageModelRegister" @submitData="loadData"/>
+    <CopyStorageModel @register="copyStorageModelRegister" @submitData="loadData"/>
   </div>
 </template>
 <script lang="ts">
@@ -40,12 +52,16 @@ import {useModal} from '/@/components/Modal';
 import {BasicColumn, BasicTable, TableAction} from '/@/components/Table';
 import {getStorage, deleteStorage} from '/@/api/sys/storage';
 import EditModel from './EditModel.vue';
+import BindStorageModel from './BindStorageModel.vue';
+import CopyStorageModel from './CopyStorageModel.vue';
 
 export default defineComponent({
-  components: {BasicTable, TableAction, EditModel},
+  components: {BasicTable, TableAction, EditModel, BindStorageModel, CopyStorageModel},
   setup() {
     const loading = ref(false);
     const [editModelRegister, {openModal: editOpenModel}] = useModal();
+    const [bindStorageModelRegister, {openModal: bindStorageModel}] = useModal();
+    const [copyStorageModelRegister, {openModal: copyStorageModel}] = useModal();
 
     const basicColumns = ref<BasicColumn[]>([
       {
@@ -70,17 +86,17 @@ export default defineComponent({
         title: '存储',
         dataIndex: 'refStorageName',
       },
-      {
-        title: '可写',
-        dataIndex: 'writable',
-        width: 200,
-      },
+      // {
+      //   title: '可写',
+      //   dataIndex: 'writable',
+      //   width: 200,
+      // },
     ]);
 
     const tableData = ref<any>();
 
     const actionColumn = ref<any>({
-      width: 140,
+      width: 300,
       title: '操作',
       dataIndex: 'action',
       slots: {customRender: 'action'},
@@ -110,6 +126,14 @@ export default defineComponent({
       })
     }
 
+    function copyStorage(record: Recordable) {
+      copyStorageModel(true, record);
+    }
+
+    function bindStorage(record: Recordable) {
+      bindStorageModel(true, record);
+    }
+
     function editStorage(record: Recordable) {
       editOpenModel(true, record);
     }
@@ -121,9 +145,15 @@ export default defineComponent({
       openEditModel,
       editStorage,
       deleteStorage2,
+      copyStorage,
+      bindStorage,
       actionColumn,
       editModelRegister,
       editOpenModel,
+      bindStorageModelRegister,
+      bindStorageModel,
+      copyStorageModelRegister,
+      copyStorageModel,
       loadData,
     };
   },

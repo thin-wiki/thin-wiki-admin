@@ -17,6 +17,22 @@ enum Api {
 export const mainStorageOptionsApi = () =>
   defHttp.get<StorageModel[]>({url: Api.storage+"?workType=MAIN"});
 
+export function bindStorage(storageId:number,refStorageType:string,refStorageId:string,mode: ErrorMessageMode = 'modal') {
+  const params = {
+    refStorageType,
+    refStorageId
+  };
+  return defHttp.put<StorageModel>(
+    {
+      url: Api.storage+"/"+storageId+"/bind",
+      params,
+    },
+    {
+      errorMessageMode: mode,
+    }
+  );
+}
+
 export function getStorage(mode: ErrorMessageMode = 'modal') {
   return defHttp.get<StorageModel>(
     {
