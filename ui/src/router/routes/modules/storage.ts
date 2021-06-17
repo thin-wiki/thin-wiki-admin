@@ -9,7 +9,7 @@ const storage: AppRouteModule = {
   component: LAYOUT,
   redirect: '/storage/index',
   meta: {
-    icon: 'ion:grid-outline',
+    icon: 'clarity:storage-solid',
     title: t('routes.dashboard.dashboard'),
   },
   children: [
@@ -18,8 +18,8 @@ const storage: AppRouteModule = {
       name: '存储管理',
       component: () => import('/@/views/sys/storage/index.vue'),
       meta: {
-        affix: true,
         title: "存储管理",
+        icon: 'ant-design:setting-outlined',
       },
     },
     {
@@ -28,6 +28,7 @@ const storage: AppRouteModule = {
       component: () => import('/@/views/sys/storage/local/index.vue'),
       meta: {
         title: "本地存储",
+        icon: 'fluent:home-32-regular',
       },
     },
     {
@@ -36,6 +37,7 @@ const storage: AppRouteModule = {
       component: () => import('/@/views/sys/storage/github/index.vue'),
       meta: {
         title: "GitHub存储",
+        icon:'akar-icons:github-fill',
       },
     },
     {
@@ -44,6 +46,7 @@ const storage: AppRouteModule = {
       component: () => import('/@/views/sys/storage/gitee/index.vue'),
       meta: {
         title: "Gitee存储",
+        icon:'simple-icons:gitee',
       },
     },
   ],

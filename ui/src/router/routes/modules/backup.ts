@@ -8,7 +8,7 @@ const backup: AppRouteModule = {
   component: LAYOUT,
   redirect: '/sys/backup',
   meta: {
-    icon: 'simple-icons:about-dot-me',
+    icon: 'ic:baseline-backup',
     title: '数据备份',
   },
   children: [
@@ -18,7 +18,7 @@ const backup: AppRouteModule = {
       component: () => import('/@/views/sys/backup/index.vue'),
       meta: {
         title: '数据备份',
-        icon: 'simple-icons:about-dot-me',
+        icon: 'ic:baseline-backup',
       },
     },
   ],

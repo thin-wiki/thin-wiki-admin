@@ -9,7 +9,7 @@ const setting: AppRouteModule = {
   component: LAYOUT,
   redirect: '/sys/config',
   meta: {
-    icon: 'simple-icons:about-dot-me',
+    icon: 'ant-design:setting-outlined',
     title: '系统配置',
   },
   children: [
@@ -19,7 +19,7 @@ const setting: AppRouteModule = {
       component: () => import('/@/views/sys/config/index.vue'),
       meta: {
         title: '系统配置',
-        icon: 'simple-icons:about-dot-me',
+        icon: 'ant-design:setting-outlined',
       },
     },
   ],
