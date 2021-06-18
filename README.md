@@ -1,1 +1,1 @@
-Thin Wiki Admin
+Thin Wiki Admin UI
