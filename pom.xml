@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>wiki.thin</groupId>
-	<artifactId>thin-wiki-admin</artifactId>
+	<artifactId>thin-wiki-admin-ui</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>thin-wiki-admin</name>
 	<description>Thin Wiki Admin</description>
@@ -58,7 +58,7 @@
 	</repositories>
 
 	<build>
-		<finalName>thin-wiki-admin</finalName>
+		<finalName>thin-wiki-admin-ui</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
