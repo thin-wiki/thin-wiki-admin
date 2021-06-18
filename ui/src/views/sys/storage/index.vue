@@ -19,17 +19,17 @@
           :actions="[
             {
               label: '复制',
-              icon: 'ic:outline-delete-outline',
+              icon: 'ant-design:copy-filled',
               onClick: copyStorage.bind(null, record),
             },
             {
               label: '关联存储',
-              icon: 'ic:outline-delete-outline',
+              icon: 'file-icons:binder',
               onClick: bindStorage.bind(null, record),
             },
             {
               label: '编辑',
-              icon: 'ic:outline-delete-outline',
+              icon: 'akar-icons:edit',
               onClick: editStorage.bind(null, record),
             },
             {

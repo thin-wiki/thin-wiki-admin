@@ -19,7 +19,7 @@
           :actions="[
             {
               label: '编辑',
-              icon: 'ic:outline-delete-outline',
+              icon: 'akar-icons:edit',
               onClick: editStorage.bind(null, record),
             },
             {

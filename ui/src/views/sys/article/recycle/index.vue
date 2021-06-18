@@ -1,8 +1,8 @@
 <template>
   <div class="p-4">
     <BasicTable
-      title="Gitee存储"
-      titleHelpMessage="Gitee存储"
+      title="回收站"
+      titleHelpMessage="回收站"
       :columns="columns"
       :dataSource="data"
       :canResize="false"
@@ -12,62 +12,66 @@
       :action-column="actionColumn"
     >
       <template #toolbar>
-        <a-button type="primary" @click="openEditModel">新增存储</a-button>
+        <a-button type="error" @click="cleanRecycle">清空回收站</a-button>
       </template>
       <template #action="{ record }">
         <TableAction
           :actions="[
             {
-              label: '编辑',
-              icon: 'akar-icons:edit',
-              onClick: editStorage.bind(null, record),
+              label: '还原',
+              icon: 'fa-solid:recycle',
+              onClick: restoreArticle.bind(null, record),
             },
             {
               label: '删除',
               icon: 'ic:outline-delete-outline',
-              onClick: deleteStorage.bind(null, record),
+              onClick: deleteArticle.bind(null, record),
             },
           ]"
         />
       </template>
     </BasicTable>
-    <EditModel @register="editModelRegister" @submitData="loadData"/>
   </div>
 </template>
 <script lang="ts">
 import {defineComponent, onMounted, ref} from 'vue';
-import {useModal} from '/@/components/Modal';
 import {BasicColumn, BasicTable, TableAction} from '/@/components/Table';
-import {getGiteeStorage, deleteGiteeStorage} from '/@/api/sys/storage';
-import EditModel from './EditModel.vue';
+import {
+  getRecycleArticles,
+  deleteRecycleArticle,
+  restoreRecycleArticles,
+  cleanRecycleArticles
+} from '/@/api/sys/article';
 
 export default defineComponent({
-  components: {BasicTable, TableAction, EditModel},
+  components: {BasicTable, TableAction},
   setup() {
     const loading = ref(false);
-    const [editModelRegister, {openModal: editOpenModel}] = useModal();
 
     const basicColumns = ref<BasicColumn[]>([
       {
-        title: '名称',
-        dataIndex: 'name',
+        title: '文章id',
+        dataIndex: 'id',
       },
       {
-        title: 'basePath',
-        dataIndex: 'basePath',
+        title: '所属类目',
+        dataIndex: 'columnTitle',
       },
       {
-        title: '创建时间',
-        dataIndex: 'createdDate',
-        width: 190,
-        sorter: true,
+        title: '文章名称',
+        dataIndex: 'title',
+      },
+      {
+        title: '删除时间',
+        dataIndex: 'lastModifiedDate',
+        width: 200,
       },
     ]);
 
     const tableData = ref<any>();
 
     const actionColumn = ref<any>({
-      width: 140,
+      width: 150,
       title: '操作',
       dataIndex: 'action',
       slots: {customRender: 'action'},
@@ -79,39 +83,41 @@ export default defineComponent({
 
     function loadData() {
       loading.value = true;
-      getGiteeStorage().then(res => {
+      getRecycleArticles().then(res=>{
         tableData.value = res;
         loading.value = false;
       })
     }
 
-    function openEditModel() {
-      editOpenModel(true, {});
-    }
-
-    function deleteStorage(record: Recordable) {
+    function cleanRecycle() {
       loading.value = true;
-      deleteGiteeStorage(record.id).then(res => {
-        loading.value = false;
-        loadData();
+      cleanRecycleArticles().then(res=>{
+        loadData()
       })
     }
 
-    function editStorage(record: Recordable) {
-      editOpenModel(true, record);
+    function deleteArticle(record: Recordable) {
+      loading.value = true;
+      deleteRecycleArticle(record.id).then(res=>{
+        loadData()
+      })
+    }
+
+    function restoreArticle(record: Recordable) {
+      loading.value = true;
+      restoreRecycleArticles(record.id).then(res=>{
+        loadData()
+      })
     }
 
     return {
       columns: basicColumns,
       data: tableData,
       loading,
-      openEditModel,
-      editStorage,
-      deleteStorage,
+      cleanRecycle,
+      deleteArticle,
+      restoreArticle,
       actionColumn,
-      editModelRegister,
-      editOpenModel,
-      loadData,
     };
   },
 });
