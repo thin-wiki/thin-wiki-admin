@@ -21,6 +21,11 @@
         <TableAction
           :actions="[
             {
+              label: '下载',
+              icon: 'ant-design:cloud-download-outlined',
+              onClick: downloadBackup.bind(null, record),
+            },
+            {
               label: '删除',
               icon: 'ic:outline-delete-outline',
               onClick: deleteBackup.bind(null, record),
@@ -61,7 +66,7 @@ export default defineComponent({
     const tableData = ref<any>();
 
     const actionColumn = ref<any>({
-      width: 80,
+      width: 150,
       title: '操作',
       dataIndex: 'action',
       slots: {customRender: 'action'},
@@ -93,6 +98,12 @@ export default defineComponent({
       })
     }
 
+    function downloadBackup(record: Recordable) {
+      console.log(record);
+      const url = '/backup/'+record.fileName;
+      window.open(url);
+    }
+
     return {
       columns: basicColumns,
       data: tableData,
@@ -100,6 +111,7 @@ export default defineComponent({
       backupData,
       deleteBackup,
       actionColumn,
+      downloadBackup,
     };
   },
 });

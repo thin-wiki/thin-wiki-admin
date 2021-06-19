@@ -73,7 +73,7 @@
 				<configuration>
 					<filesets>
 						<fileset>
-							<directory>src/main/resources/static</directory>
+							<directory>${project.basedir}/src/main/resources/static</directory>
 						</fileset>
 						<fileset>
 							<!-- Vue项目打包自动生成的dist目录 -->
