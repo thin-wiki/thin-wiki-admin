@@ -1,0 +1,4 @@
+mvn clean deploy verify
+
+mvn release:prepare -Darguments="-DskipTests"
+mvn clean release:perform verify
