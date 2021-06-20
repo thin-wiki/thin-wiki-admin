@@ -4,7 +4,7 @@
 
 	<groupId>wiki.thin</groupId>
 	<artifactId>thin-wiki-admin-ui</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>thin-wiki-admin</name>
 	<description>Thin Wiki Admin</description>
 	<url>https://github.com/thin-wiki/thin-wiki-admin</url>
@@ -19,7 +19,7 @@
 		<developerConnection>scm:git:git@github.com:thin-wiki/thin-wiki-admin-ui</developerConnection>
 		<url>https://github.com/thin-wiki/thin-wiki-admin-ui</url>
 		<connection>https://github.com/thin-wiki/thin-wiki-admin-ui.git</connection>
-		<tag>v0.0.1</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<developers>
