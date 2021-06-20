@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>wiki.thin</groupId>
 	<artifactId>thin-wiki-admin-ui</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>thin-wiki-admin</name>
 	<description>Thin Wiki Admin</description>
 	<url>https://github.com/thin-wiki/thin-wiki-admin</url>
@@ -20,7 +19,7 @@
 		<developerConnection>scm:git:git@github.com:thin-wiki/thin-wiki-admin-ui</developerConnection>
 		<url>https://github.com/thin-wiki/thin-wiki-admin-ui</url>
 		<connection>https://github.com/thin-wiki/thin-wiki-admin-ui.git</connection>
-		<tag>HEAD</tag>
+		<tag>v0.0.1</tag>
 	</scm>
 
 	<developers>
