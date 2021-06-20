@@ -12,7 +12,7 @@
 
         <div class="py-4 px-4 flex justify-between">
           <CountTo prefix="" :startVal="0" :endVal="item.value" class="text-2xl"/>
-          <Icon :icon="item.icon" :size="40"/>
+          <Icon :icon="item.icon" :size="40" :color="item.color"/>
         </div>
       </Card>
     </template>
@@ -40,17 +40,17 @@ export default defineComponent({
         const data = [];
         const columnCount = {
           'title': '类目数',
-          'icon': 'visit-count|svg',
+          'icon': 'fluent:column-triple-edit-24-filled',
           'value': res.columnCount,
           'total': res.columnCount,
           'color': 'green',
         }
         const articleCount = {
           'title': '文章数',
-          'icon': 'transaction|svg',
+          'icon': 'ic:outline-article',
           'value': res.articleCount,
           'total': res.articleCount,
-          'color': 'green',
+          'color': 'red',
           'action': '月',
         }
 
