@@ -54,21 +54,20 @@ const transform: AxiosTransform = {
       //return errorResult;
     }
     //  这里 code，result，message为 后台统一的字段，需要在 types.ts内修改为项目自己的接口返回格式
-    const { code, message } = data;
+    const { code, msg } = data;
     const resData = data.data;
-
     // 这里逻辑可以根据项目进行修改
     const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
     if (!hasSuccess) {
-      if (message) {
+      if (msg) {
         // errorMessageMode=‘modal’的时候会显示modal错误弹窗，而不是消息提示，用于一些比较重要的错误
         if (options.errorMessageMode === 'modal') {
-          createErrorModal({ title: t('sys.api.errorTip'), content: message });
+          createErrorModal({ title: t('sys.api.errorTip'), content: msg });
         } else if (options.errorMessageMode === 'message') {
-          createMessage.error(message);
+          createMessage.error(msg);
         }
       }
-      throw new Error(message);
+      throw new Error(msg);
       //return errorResult;
     }
 
@@ -78,9 +77,9 @@ const transform: AxiosTransform = {
     }
     // 接口请求错误，统一提示错误信息
     if (code === ResultEnum.ERROR) {
-      if (message) {
-        createMessage.error(data.message);
-        throw new Error(message);
+      if (msg) {
+        createMessage.error(data.msg);
+        throw new Error(msg);
       } else {
         const msg = t('sys.api.errorMessage');
         createMessage.error(msg);

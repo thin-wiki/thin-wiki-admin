@@ -9,7 +9,7 @@ import { PageEnum } from '/@/enums/pageEnum';
 import { ROLES_KEY, TOKEN_KEY, USER_INFO_KEY } from '/@/enums/cacheEnum';
 
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
-import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
+import {LoginParams, LoginResultModel} from '/@/api/sys/model/userModel';
 
 import { getUserInfo, loginApi } from '/@/api/sys/user';
 
@@ -80,21 +80,22 @@ export const useUserStore = defineStore({
         goHome?: boolean;
         mode?: ErrorMessageMode;
       }
-    ): Promise<GetUserInfoModel | null> {
+    ): Promise<LoginResultModel | null> {
       try {
         const { goHome = true, mode, ...loginParams } = params;
         const data = await loginApi(loginParams, mode);
-        const { token } = data;
+        const { account } = data;
 
         // save token
-        this.setToken(token);
+        this.setToken(account);
         // get user info
-        const userInfo = await this.getUserInfoAction();
-
+        // const userInfo = await this.getUserInfoAction();
+        //
         const sessionTimeout = this.sessionTimeout;
         sessionTimeout && this.setSessionTimeout(false);
         !sessionTimeout && goHome && (await router.replace(PageEnum.BASE_HOME));
-        return userInfo;
+        // return userInfo;
+        return data;
       } catch (error) {
         return Promise.reject(error);
       }

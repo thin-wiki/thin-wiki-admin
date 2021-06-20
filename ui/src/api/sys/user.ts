@@ -4,7 +4,7 @@ import { LoginParams, LoginResultModel, GetUserInfoModel } from './model/userMod
 import { ErrorMessageMode } from '/@/utils/http/axios/types';
 
 enum Api {
-  Login = '/login',
+  Login = '/api/pub/login',
   GetUserInfo = '/getUserInfo',
   GetPermCode = '/getPermCode',
 }
@@ -15,7 +15,7 @@ enum Api {
 export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') {
   return defHttp.post<LoginResultModel>(
     {
-      url: Api.Login+"?account="+params.account+"&password="+params.password,
+      url: Api.Login,
       params,
     },
     {
