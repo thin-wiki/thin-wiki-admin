@@ -113,11 +113,10 @@ export default defineComponent({
     }
 
     function deleteArticle(record: Recordable) {
-      console.log("delete");
-      // loading.value = true;
-      // deleteRecycleArticle(record.id).then(res=>{
-      //   loadData()
-      // })
+      loading.value = true;
+      deleteRecycleArticle(record.id).then(res=>{
+        loadData()
+      })
     }
 
     function restoreArticle(record: Recordable) {
