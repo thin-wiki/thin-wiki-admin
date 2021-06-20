@@ -130,6 +130,7 @@ export default defineComponent({
               createMessage.success('更新成功！');
             });
           } else {
+            console.log('add ',data);
             addGithubStorage(data).then(res => {
               setModalProps({
                 loading: false

@@ -35,7 +35,11 @@
             {
               label: '删除',
               icon: 'ic:outline-delete-outline',
-              onClick: deleteStorage2.bind(null, record),
+              color: 'error',
+              popConfirm: {
+                title:'您确定删除该记录么？',
+                confirm: deleteStorage2.bind(null, record),
+              },
             },
           ]"
         />

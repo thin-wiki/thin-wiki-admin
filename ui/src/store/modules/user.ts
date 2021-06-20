@@ -11,11 +11,12 @@ import { ROLES_KEY, TOKEN_KEY, USER_INFO_KEY } from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
 import {LoginParams, LoginResultModel} from '/@/api/sys/model/userModel';
 
-import { getUserInfo, loginApi } from '/@/api/sys/user';
+import { getUserInfo, loginApi,logoutApi } from '/@/api/sys/user';
 
 import { useI18n } from '/@/hooks/web/useI18n';
 import { useMessage } from '/@/hooks/web/useMessage';
 import router from '/@/router';
+import {updateSysConfig} from "/@/api/sys/config";
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
@@ -112,7 +113,9 @@ export const useUserStore = defineStore({
      * @description: logout
      */
     logout(goLogin = false) {
-      goLogin && router.push(PageEnum.BASE_LOGIN);
+      logoutApi().then(res => {
+        goLogin && router.push(PageEnum.BASE_LOGIN);
+      });
     },
 
     /**

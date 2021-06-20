@@ -28,7 +28,11 @@
             {
               label: '删除',
               icon: 'ic:outline-delete-outline',
-              onClick: deleteBackup.bind(null, record),
+              color: 'error',
+              popConfirm: {
+                title:'您确定删除该记录么？',
+                confirm: deleteBackup.bind(null, record),
+              },
             },
           ]"
         />

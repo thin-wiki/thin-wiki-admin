@@ -20,12 +20,19 @@
             {
               label: '还原',
               icon: 'fa-solid:recycle',
-              onClick: restoreArticle.bind(null, record),
+              popConfirm: {
+                title:'您确定还原该记录么？',
+                confirm: restoreArticle.bind(null, record),
+              },
             },
             {
               label: '删除',
               icon: 'ic:outline-delete-outline',
-              onClick: deleteArticle.bind(null, record),
+              color: 'error',
+              popConfirm: {
+                title:'您确定删除该记录么？',
+                confirm: deleteArticle.bind(null, record),
+              },
             },
           ]"
         />
@@ -42,11 +49,13 @@ import {
   restoreRecycleArticles,
   cleanRecycleArticles
 } from '/@/api/sys/article';
+import {useMessage} from "/@/hooks/web/useMessage";
 
 export default defineComponent({
   components: {BasicTable, TableAction},
   setup() {
     const loading = ref(false);
+    const { createConfirm } = useMessage();
 
     const basicColumns = ref<BasicColumn[]>([
       {
@@ -90,17 +99,25 @@ export default defineComponent({
     }
 
     function cleanRecycle() {
+      createConfirm({
+        iconType: 'warning',
+        title: '清空回收站',
+        content: '您确定清空回收站么？',
+        onOk: async () => {
+          cleanRecycleArticles().then(res=>{
+            loadData()
+          })
+        },
+      });
       loading.value = true;
-      cleanRecycleArticles().then(res=>{
-        loadData()
-      })
     }
 
     function deleteArticle(record: Recordable) {
-      loading.value = true;
-      deleteRecycleArticle(record.id).then(res=>{
-        loadData()
-      })
+      console.log("delete");
+      // loading.value = true;
+      // deleteRecycleArticle(record.id).then(res=>{
+      //   loadData()
+      // })
     }
 
     function restoreArticle(record: Recordable) {
