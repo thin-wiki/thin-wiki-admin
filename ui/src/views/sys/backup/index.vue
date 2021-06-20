@@ -100,7 +100,7 @@ export default defineComponent({
 
     function downloadBackup(record: Recordable) {
       console.log(record);
-      const url = '/backup/'+record.fileName;
+      const url = '/api/admin/backup/'+record.fileName;
       window.open(url);
     }
 
