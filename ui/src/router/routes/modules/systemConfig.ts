@@ -28,7 +28,7 @@ const setting: AppRouteModule = {
       component: () => import('/@/views/sys/password/index.vue'),
       meta: {
         title: '修改密码',
-        icon: 'ant-design:setting-outlined',
+        icon: 'carbon:password',
       },
     },
   ],

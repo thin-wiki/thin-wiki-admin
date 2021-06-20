@@ -4,7 +4,7 @@ import type {MenuModule} from '/@/router/types';
 const backup: MenuModule = {
   orderNo: 20,
   menu: {
-    path: '/sys/backup',
+    path: '/data/backup',
     name: '数据备份',
   },
 };

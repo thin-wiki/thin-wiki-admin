@@ -2,7 +2,7 @@ import type {MenuModule} from '/@/router/types';
 // import { t } from '/@/hooks/web/useI18n';
 
 const sysConfig: MenuModule = {
-  orderNo: 20,
+  orderNo: 21,
   menu: {
     path: '/sys',
     name: '系统设置',

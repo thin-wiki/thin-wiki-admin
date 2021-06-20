@@ -3,10 +3,10 @@ import type { AppRouteModule } from '/@/router/types';
 import { LAYOUT } from '/@/router/constant';
 
 const backup: AppRouteModule = {
-  path: '/sys',
+  path: '/data',
   name: '数据备份',
   component: LAYOUT,
-  redirect: '/sys/backup',
+  redirect: '/data/backup',
   meta: {
     icon: 'ic:baseline-backup',
     title: '数据备份',
