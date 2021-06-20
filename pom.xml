@@ -17,9 +17,9 @@
 	</properties>
 
 	<scm>
-		<developerConnection>scm:git:git@github.com:thin-wiki/thin-wiki-admin</developerConnection>
-		<url>https://github.com/thin-wiki/thin-wiki-admin</url>
-		<connection>https://github.com/thin-wiki/thin-wiki-admin.git</connection>
+		<developerConnection>scm:git:git@github.com:thin-wiki/thin-wiki-admin-ui</developerConnection>
+		<url>https://github.com/thin-wiki/thin-wiki-admin-ui</url>
+		<connection>https://github.com/thin-wiki/thin-wiki-admin-ui.git</connection>
 		<tag>HEAD</tag>
 	</scm>
 
