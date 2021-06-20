@@ -22,6 +22,15 @@ const setting: AppRouteModule = {
         icon: 'ant-design:setting-outlined',
       },
     },
+    {
+      path: 'password',
+      name: '修改密码',
+      component: () => import('/@/views/sys/password/index.vue'),
+      meta: {
+        title: '修改密码',
+        icon: 'ant-design:setting-outlined',
+      },
+    },
   ],
 };
 

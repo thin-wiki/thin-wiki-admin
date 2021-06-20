@@ -35,3 +35,8 @@ export interface GetUserInfoModel {
   // 介绍
   desc?: string;
 }
+
+export interface ChangePasswordModel {
+  oldPassword: string;
+  newPassword: string;
+}

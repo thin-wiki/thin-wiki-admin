@@ -4,8 +4,18 @@ import type {MenuModule} from '/@/router/types';
 const sysConfig: MenuModule = {
   orderNo: 20,
   menu: {
-    path: '/sys/config',
+    path: '/sys',
     name: '系统设置',
+    children: [
+      {
+        path: 'config',
+        name: "系统设置",
+      },
+      {
+        path: 'password',
+        name: '修改密码',
+      },
+    ],
   },
 };
 export default sysConfig;
